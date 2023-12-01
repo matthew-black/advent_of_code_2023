@@ -33,7 +33,7 @@ reversedDigitStrings.forEach((reversedDigit, i) => {
 
 module.exports = {
   digitStrings,
-  reversedDigitStrings,
   digitMap,
+  reversedDigitStrings,
   reversedDigitMap
 }

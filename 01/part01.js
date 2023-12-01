@@ -1,13 +1,12 @@
 const calibrations = require('./data.js')
 
+
 // Takes in an array of obscured calibrations and
 // returns their sum.
   // Input/ouput example:
   // ['19one7sev', '9vxfg']  -->  116 (result of 17 + 99)
-function calculateSumOf(obscuredCalibrations) {
-  return obscuredCalibrations.reduce((sum, calibration) => {
-    return sum + unobscure(calibration)
-  }, 0)
+function calculateSumOf(calibrations) {
+  return calibrations.reduce((sum, calibration) => (sum + unobscure(calibration)), 0)
 }
 
 // Takes in a single obscured calibration and returns
@@ -15,37 +14,41 @@ function calculateSumOf(obscuredCalibrations) {
   // Input/ouput examples:
   // '19one7sev'  -->  17
   // '9vxfg'      -->  99
-function unobscure(obscuredCalibration) {
-  let firstNum = findFirstNumber(obscuredCalibration)
-  let secondNum = findSecondNumber(obscuredCalibration)
+function unobscure(calibration) {
+  const firstNum = findFirstNumber(calibration)
+  const secondNum = findSecondNumber(calibration)
 
-  return Number(firstNum + secondNum)
+  return Number(`${firstNum}${secondNum}`)
 }
 
-function findFirstNumber(obscuredCalibration) {
-  for (let i = 0; i < obscuredCalibration.length; i++) {
-    const char = obscuredCalibration[i]
-    const charAsNumber = Number(char)
-    
-    if (!Number.isNaN(charAsNumber)) {
+// Takes in a single obscured calibration and returns
+// the first character that is a number.
+  // Input/ouput examples:
+  // '19one7sev'  -->  '1'
+  // '9vxfg'      -->  '9'
+function findFirstNumber(calibration) {
+  for (const char of calibration) {
+    if (!Number.isNaN(Number(char))) {
       return char
     } 
   }
 }
 
-function findSecondNumber(obscuredCalibration) {
-  const reversed = obscuredCalibration.split('').reverse().join('')
+// Takes in a single obscured calibration and returns
+// the final character that is a number.
+  // Input/ouput examples:
+  // '19one7sev'  -->  '7'
+  // '9vxfg'      -->  '9'
+function findSecondNumber(calibration) {
+  const reversedCalibration = calibration.split('').reverse().join('')
 
-  for (let i = 0; i < reversed.length; i++) {
-    const char = reversed[i]
-    const charAsNumber = Number(char)
-    
-    if (!Number.isNaN(charAsNumber)) {
+  for (const char of reversedCalibration) {
+    if (!Number.isNaN(Number(char))) {
       return char
     }
   }
 }
 
-const calibrationSum = calculateSumOf(calibrations)
 
+const calibrationSum = calculateSumOf(calibrations)
 console.log('The solution to Part One is 54390:', calibrationSum)
